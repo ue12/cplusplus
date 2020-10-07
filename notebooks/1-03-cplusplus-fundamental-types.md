@@ -9,7 +9,20 @@ kernelspec:
   display_name: Python 3
   language: python
   name: python3
+notebookname: types fondamentaux
 ---
+
+<div class="licence">
+<span>Licence CC BY-NC-ND</span>
+<div style="display:grid">
+    <span>UE12-MINES-ParisTech</span>
+</div>
+<div style="display:grid">
+    <span><img src="media/ensmp-25-alpha.png" /></span>
+</div>
+</div>
+
++++
 
 # les types fondamentaux de `c++`
 
