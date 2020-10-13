@@ -258,10 +258,11 @@ La programmation est quelque chose de relativement laborieux (surtout dans des l
 <ins>les fichiers qui contiennent vos programmes</ins>
 
 des fichiers de texte avec des extensions pour être reconnus par les autres logiciels
+* les fichiers avec l'extension `.cpp`, `.cc`, `.cxx` sont des fichiers dits d'**implémentation**  
+(nous allez y écrire le code à proprement dit de vos programmes) ...
 
-des fichiers d'implémentation `.cpp`, `.cc`, `.cxx` ...
-
-des fichiers d'entête (de définitions de types, de déclatation de fonctions et de variables) `.h`
+* les fichiers avec l'extension `.h` sont des fichiers dits d'**entête**  
+(de définitions de types, de déclatation de fonctions et de variables) `.h`
 
 +++
 
@@ -273,15 +274,15 @@ Vos programmes vont être écrits dans des fichiers de texte auxquels vous allez
 
 Pour les écrire, vous allez utiliser l'éditeur vs-code auquel vous ajouterez l'extension `c++` pour bénéficier de tout un tas d'aide à l'édition.
 
-+++ {"tags": []}
++++ {"tags": ["level_intermediate"]}
 
 ## les caractères qu'on trouve dans les programme `c++`
 
-+++ {"tags": []}
++++ {"tags": ["level_intermediate"]}
 
 ### *slides*
 
-+++ {"tags": []}
++++ {"tags": ["level_intermediate"]}
 
 <ins> les caractères qu'on trouve dans les programme c++ </ins>
 
@@ -340,15 +341,15 @@ Sur ce vieux tableau (dessiné en 1972) vous voyez le codage ascii sur les `7` b
 
 Attention, les chaînes de caractères sont plus complexes à gérer (nous y reviendrons si nous en avons le temps).
 
-+++
++++ {"tags": ["level_advanced"]}
 
 ## le lexique et la grammaire du langage `c++`
 
-+++
++++ {"tags": ["level_advanced"]}
 
 ### *slides*
 
-+++
++++ {"tags": ["level_advanced"]}
 
 <ins>le lexique et la grammaire du langage `c++`</ins>
 * des unités lexicales comme les keywords `if`, `int`, `true`  
@@ -408,11 +409,11 @@ number      (\.?{digit}({digit}|{letter}|[eE][-+]|\.)*) // * is 0 or several tim
     ...   
 ```
 
-+++ {"tags": ["level_intermediate"]}
++++ {"tags": ["level_advanced"]}
 
 Les règles syntaxiques (grammaires) des langages de programmation sont écrites dans des formats dédiés, comme le format EBNF (Extended Backus-Naur Form). Ces formats sont ensuite exploités par des outils d'analyse syntaxique (ou *parser* en anglais). Cette analyse est, avec l'analyse lexicale (ou *lexer*), réalisée dans les toutes premières phases de compilation.
 
-+++ {"tags": ["level_intermediate"]}
++++ {"tags": ["level_advanced"]}
 
 Les règles syntaxiques sont décrites comme cela:
 
