@@ -15,7 +15,7 @@ def tracks(coursedir):
 
     track_specs = [
         ('C++ avancé', 'C++ avancé', 'cplusplus', [
-            ('1/9: intro', 'notebooks/1-*.md', 'tps/games/README.md'),
+            ('1/9: intro', 'notebooks/1-*.md'),
             ('2/9: ???', 'notebooks/2-*.md'),
             ('3/9: ???', 'notebooks/3-*.md'),
             ('4/9: ???', 'notebooks/4-*.md'),
