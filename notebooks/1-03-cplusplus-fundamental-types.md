@@ -11,6 +11,21 @@ kernelspec:
   name: python3
 ---
 
+<div class="licence">
+<span>Licence CC BY-NC-ND</span>
+<div style="display:grid">
+    <span>UE12-MINES-ParisTech</span>
+</div>
+<div style="display:grid">
+    <span><img src="media/ensmp-25-alpha.png" /></span>
+</div>
+</div>
+
+```{code-cell} ipython3
+from IPython.display import HTML
+HTML('<link rel="stylesheet" href="c++-slides.css" />')
+```
+
 # les types fondamentaux de `c++`
 
 +++
@@ -21,7 +36,9 @@ Quand les explications sont simples et directes, seules les *slides* sont indiqu
 
 +++
 
-<ins>Les types fondamentaux de base de `c++` (que nous allons détailler ici)</ins>
+<div class="framed-cell">
+<ins class="underlined-title">Les types fondamentaux de base de `c++` (que nous allons détailler ici)</ins>
+    
 * types et identificateurs
 * booléen
 * nombres entiers
@@ -30,6 +47,7 @@ Quand les explications sont simples et directes, seules les *slides* sont indiqu
 * `typeid`
 * pointeurs
 * caractères et chaînes de caractères
+</div>
 
 +++
 
@@ -41,7 +59,8 @@ Quand les explications sont simples et directes, seules les *slides* sont indiqu
 
 +++
 
-<ins>en `c++` les objets et les identificateurs sont typés</ins>
+<div class="framed-cell">
+<ins class="underlined-title">en `c++` les objets et les identificateurs sont typés</ins>
 
 les objets sont typés `12` est un  `signed int`, `3.1459` un `double`, `'a'` un caractère...
 
@@ -50,6 +69,7 @@ tous les identificateurs sont typés
 * les fonctions, leurs arguments, leur type de retour sont typés...
 
 types $\Rightarrow$ opérations
+</div>
 
 +++ {"tags": []}
 
@@ -121,7 +141,8 @@ $ ./divfloat
 
 +++
 
-<ins>taille en octet d'un type ou objet</ins>
+<div class="framed-cell">
+<ins class="underlined-title">taille en octet d'un type ou objet</ins>
 
 la fonction `sizeof` appliquée à un type ou à un objet ou à une variable
 
@@ -134,6 +155,7 @@ int x = 17;
 std::cout << sizeof(x);
 std::cout << sizeof(17);
 ```
+</div>
 
 +++
 
@@ -149,7 +171,8 @@ std::cout << sizeof(17);
 
 +++ {"cell_style": "center"}
 
-<ins>le type booléen</ins>
+<div class="framed-cell">
+<ins class="underlined-title">le type booléen</ins>
 
 c'est le type `bool`
 
@@ -159,8 +182,6 @@ les opérateurs qui travaillent sur des booléens sont:
 * `and` (s'écrit aussi `&&`)
 * `or` (s'écrit aussi `||`)
 * `not` (s'écrit aussi `!`)
-
-+++ {"cell_style": "center"}
 
 ```c++
 // in file types.cpp
@@ -183,10 +204,12 @@ b1 est 1
 b2 est 0
 b3 est true    <-- true à la place de 1
 ```
+</div>
 
 +++
 
-<ins>le type `bool`</ins>
+<div class="framed-cell">
+<ins class="underlined-title">le type `bool`</ins>
 
 c'est le type renvoyé par une condition dans une instruction `if` ou une itération conditionnelle `while`
 
@@ -205,6 +228,7 @@ Plus généralement:
 tout objet dont la valeur n'est pas nulle peut être converti en `true`
 
 tout objet dont la valeur est nulle peut être converti en `false`
+</div>
 
 +++
 
@@ -220,7 +244,8 @@ tout objet dont la valeur est nulle peut être converti en `false`
 
 +++
 
-<ins> les types pour représenter des entiers <ins>
+<div class="framed-cell">
+<ins class="underlined-title"> les types pour représenter des entiers </ins>
     
 cinq types d'entiers signés standard:
 * `signed char`
@@ -244,6 +269,7 @@ les `int` sont signés par défaut
 
 
 nous reviendrons plus loin sur le type `char` qui est celui qui encode les caractères
+</div>
 
 +++
 
@@ -273,7 +299,8 @@ La norme nous dit que tous les `int` sont signés par défaut i.e. `int` ou `sig
 
 +++
 
-<ins>les nombres à virgule flottante</ins>
+<div class="framed-cell">
+<ins class="underlined-title">les nombres à virgule flottante</ins>
 
 sont des approximations de nombres réels $17.3\ 10^{-8}$ est `17.3e-8` avec: 
 * une partie entière `17`
@@ -284,8 +311,6 @@ sont des approximations de nombres réels $17.3\ 10^{-8}$ est `17.3e-8` avec:
 (pour vous amuser avec la représentation binaire des nombres à virgule flottantes allez là: www.binaryconvert.com)
 
 (pour vous amuser avec la norme allez ici https://fr.wikipedia.org/wiki/IEEE_754)
-
-+++
 
 ```c++
 #include<iostream>
@@ -302,10 +327,12 @@ int main () {
   return 0;
 }
 ```
+</div>
 
 +++
 
-<ins> les types des nombres à virgule flottante</ins>
+<div class="framed-cell">
+<ins class="underlined-title"> les types des nombres à virgule flottante</ins>
 
 il y a trois types: `float`, `double` et `long double`
 
@@ -320,6 +347,7 @@ int main () {
   return 0;
 }
 ```
+</div>
 
 +++
 
@@ -384,7 +412,8 @@ std::numeric_limits <int>::min()
 
 +++
 
-<ins> le type `void`</ins>
+<div class="framed-cell">
+<ins class="underlined-title"> le type `void`</ins>
 
 `void` est un type incomplet qui a un ensemble de valeurs vide
 
@@ -403,6 +432,7 @@ int main () {
 ```
 
 *  comme type de base des pointeurs vers des objets dont le type est inconnu (mais on y reviendra)
+</div>
 
 +++
 
@@ -414,11 +444,14 @@ int main () {
 
 +++
 
-<ins>Qu'est-ce qu'un pointeur ?</ins>
+<div class="framed-cell">
+<ins class="underlined-title">Qu'est-ce qu'un pointeur ?</ins>
 
 un pointeur est l'adresse d'un objet en mémoire
 
 pour un type `T`, `T*` est le pointeur vers un objet de type `T`
+
+(le type de l'objet est précisé dans l'adresse mais toutes les adresses ont la même taille en mémoire) 
 
 ainsi `int*` est le type adresse d'un objet de type `int`
 
@@ -428,9 +461,12 @@ on est très *proche de la machine*: on touche dans sa mémoire (mais dans le se
 
 on voit des exemples juste après ... il nous manque encore des notions
 
+</div>
+
 +++
 
-<ins>Accédons à l'adresse mémoire d'un objet</ins>
+<div class="framed-cell">
+<ins class="underlined-title">Accédons à l'adresse mémoire d'un objet</ins>
 
 dans une expression:
 * `&` est l'opérateur qui retourne l'adresse d'un objet en mémoire
@@ -465,10 +501,12 @@ $./a.out
 ```
 
 oui `c++` vous parle hexadécimal
+</div>
 
 +++
 
-<ins>Accédons à l'objet qui se trouve à une adresse</ins>
+<div class="framed-cell">
+<ins class="underlined-title">Accédons à l'objet qui se trouve à une adresse</ins>
 
 dans une expression:
 * `*` est l'opérateur qui, appliqué à un pointeur, retourne l'objet à l'adresse indiquée
@@ -499,6 +537,7 @@ $./a.out
 ```
 
 oui vous avez bien modifié l'objet `i` en le manipulant à travers son adresse `pi`
+</div>
 
 +++
 
@@ -521,7 +560,8 @@ Compilation exited abnormally with code 139 at Tue Oct  6 18:25:19
 
 +++
 
-<ins>`nullptr`</ins>
+<div class="framed-cell">
+<ins class="underlined-title">le pointeur null `nullptr`</ins>
 
 notons déjà qu'à partir de `c++11` il existe le pointeur null qui est nommé `nullptr`
 
@@ -546,6 +586,8 @@ avant `nullptr`, zéro `0` devait être utilisé comme initialisation pour le po
 }
 ```
 
+</div>
+
 +++
 
 ## le type des caractères
@@ -556,7 +598,8 @@ avant `nullptr`, zéro `0` devait être utilisé comme initialisation pour le po
 
 +++
 
-<ins>le type des caractères `char`</ins>
+<div class="framed-cell">
+<ins class="underlined-title">le type des caractères `char`</ins>
 
 un caractère en `c++` se met entre deux guillemets simples comme dans `'a'`
 
@@ -578,10 +621,12 @@ int main () {
 ```
 
 Sur combien d'octets pensez-vous d'un caractère `ascii` est codé ? Vous pouvez le savoir en utilisant la fonction `sizeof` dans `sizeof(char)` ou `sizeof('a')`
+</div>
 
 +++ {"tags": ["level_intermediate"]}
 
-<ins> les caractères non ascii en `c++`</ins>
+<div class="framed-cell">
+<ins class="underlined-title"> les caractères non ascii en `c++`</ins>
 
 les caractères peuvent être précédés de `u`, `U` (pour unicode)
 
@@ -601,10 +646,12 @@ int main () {
 return 0;
 }
 ```
+</div>
 
-+++
++++ {"tags": ["level_intermediate"]}
 
-<ins>Que dit la norme C ++ sur les types de caractères</ins>
+<div class="framed-cell">
+<ins class="underlined-title">Que dit la norme C ++ sur les types de caractères</ins>
 
 *le type char doit être suffisamment grand pour stocker les caractères ansii*
 
@@ -636,6 +683,8 @@ ainsi que pensez-vous du code suivant ?
 et bien d'un compilateur à un autre son comportement peut changer: on dit que ce code n'est **pas portable** (et ce n'est pas bien)
 
 dans le cas ou vos `char` sont signés, `c++` va faire un `overflow` et vous allez obtenir `0` à la place de `128`
+
+</div>
 
 +++ {"tags": ["level_intermediate"]}
 
@@ -672,6 +721,72 @@ Comment feriez-vous une fonction qui déduise d'une lettre, la lettre majuscule 
 Sachant que les `char` se manipulent comme des entiers ainsi `'a'+1` donnera le code `ascii` de `'b'` donc `98` si on le considère (dans le contexte) comme un entier ou `'b'` si on le considère comme un `char`. Vous ne me croyez pas ? Essayez de faire `char i = 'a' + 1;` et d'afficher `i` et de faire `short j = 'a' + 1;` et d'afficher`j`. Qu'obtenez-vous ?
 
 Donc pour la fonction qui met son argument en majuscule, combien faut-il ajouter à `'a'` pour passer à `'A'` ? Oui il faut ajouter `'A' - 'a'` (parce que `'a' + ('A' - 'a') == 'A'`) et ce sera pareil pour les autres caractères. Et comment tester que la lettre passée en argument est bien une minuscule ? Elle sera supérieure ou égale à un `a` et inférieure ou égale à un `'z'`.
+
++++
+
+## le type `auto` et `decltype`
+
++++
+
+<div class="framed-cell">
+<ins class="underlined-title">Le type `auto`</ins>
+
+<br>
+
+`c++`, au moment de la compilation, lorsqu'il voit un littéral comme `12`, `'a'`, `12.8f`, `"Hello World !"` il sait parfaitement en déduire le type (heureusement vu que c'est lui qui doit les construitre en mémoire !)   
+là `int`, `char` ou `unsigned char`, `float` et ... `const char*` (on reviendra sur ce dernier)
+
+<br>
+
+ce type dicte
+* la taille de la mémoire que `c++` doit créer pour y stocker l'objet
+* la manière d'interpréter les octets qui constitueront cette mémoire
+
+<br>
+
+puisque `c++` connaît le type des objets, depuis `c++11` vous pouvez mettre, comme type d'une variable, le type déduit par `c++` grâce au mot clé `auto`
+
+
+<br>
+
+En effet comme `c++` connait parfaitement le type de tout objet autant le laisser faire quand vous n'avez pas de besoin particulier
+
+<br>
+
+par exemple
+```c++
+int main () {
+   auto i = 2; // int
+    i = i + 1;
+   auto c = 'c’; // char ou unsigned char
+   auto l = 2147483648; // long int (sur mon ordi)
+return 0;
+}
+```
+
++++
+
+<div class="framed-cell">
+<ins class="underlined-title">`decltype`</ins>
+
+<br>
+
+`decltype` détermine le type d'une expression au moment de la compilation d'un programme
+
+<br>
+
+vous pouvez ensuite utiliser ce type pour déclarer une variable
+
+par exemple
+```c++
+int main () {
+   long int i = 2147483648;
+   decltype(i) k = 21;       // k sera un long int comme i
+                             // et non un int comme c++ aurait choisi
+                             // si on avait fait auto k = 21;
+   return 0;
+}
+```
 
 +++ {"tags": ["level_intermediate"]}
 
