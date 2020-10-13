@@ -9,6 +9,7 @@ kernelspec:
   display_name: Python 3
   language: python
   name: python3
+notebookname: types fondamentaux
 ---
 
 <div class="licence">
@@ -25,7 +26,6 @@ kernelspec:
 from IPython.display import HTML
 HTML('<link rel="stylesheet" href="c++-slides.css" />')
 ```
-
 # les types fondamentaux de `c++`
 
 +++

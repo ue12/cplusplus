@@ -9,7 +9,8 @@ kernelspec:
   display_name: Python 3
   language: python
   name: python3
-notebookname: "point d'entr\xE9e"
+
+notebookname: point d'entrée
 ---
 
 <div class="licence">
