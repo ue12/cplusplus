@@ -143,7 +143,7 @@ Nous terminerons en vous demandant d'écrire du code propre (bien indenté, avec
 // votre code ici
 
 int main (int argc, char argv []) {
-    std::cout << rpn_eval(argc, argv[1]);
+    std::cout << rpn_eval(argc, argv+1);
     return 0;
 }
 ```
