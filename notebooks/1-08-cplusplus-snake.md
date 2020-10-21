@@ -19,7 +19,7 @@ HTML('<link rel="stylesheet" href="c++-slides.css" />')
 ## A l'issue de la séance 
 
 <!-- #region -->
-L'objectif est qu'à l'issue de la séance vous-soyze capable de de jouer à Snake comme illustré ci-dessous. 
+L'objectif est qu'à l'issue de la séance vous-soyez capable de de jouer à Snake comme illustré ci-dessous. 
 
 
 <video width="600" controls src="media/snake.mp4" />
