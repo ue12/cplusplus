@@ -608,21 +608,20 @@ utilisez le raccourci !
 * faites les deux fonctions pour tester si la pile est vide ou si la pile est peine
 
 <br>
+
 ```c++
 class IntStack {
 public: 
   IntStack (int size) /* votre code ici */
-
   void push (int element) /* votre code ici */
-
   int pop () /* votre code ici */
-
   bool is_empty () /* votre code ici */
   bool is_full () /* votre code ici */
   void print () /* votre code ici */
 private:
-  /* vos attributs - données membre ici */
+  /* vos attributs - données membres ici */
 };
+```
 
 <br>
 
