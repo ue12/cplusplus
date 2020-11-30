@@ -1,0 +1,10 @@
+.framed-cell {
+    border:1px solid #000;
+    padding:15px;
+}
+
+.underlined-title {
+    color:purple;
+    font-size:18px;
+}
+
