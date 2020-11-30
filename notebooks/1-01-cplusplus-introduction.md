@@ -28,7 +28,7 @@ Dans ce cours sur le langage c++, nous avons choisi de présenter des notebooks 
 
 Chaque notebook introduit une thématique par des slides (dans une sous-section *slides*) qui sont suivies par des explications (dans une sous-section *notes*).
 
-Le cours petu se faire de manière *classique*: l'enseignant expiquant les slides. Il pourra ensuite être repris en autonomie par les élèves.
+Le cours peut se faire de manière *classique*: l'enseignant expiquant les slides. Il pourra ensuite être repris en autonomie par les élèves.
 
 +++
 
@@ -42,7 +42,7 @@ Le cours petu se faire de manière *classique*: l'enseignant expiquant les slide
 
 ### *slides*
 
-+++ {"cell_style": "split"}
++++ {"cell_style": "center"}
 
 <ins>Le langage c++</ins>
 
@@ -62,7 +62,7 @@ Le cours petu se faire de manière *classique*: l'enseignant expiquant les slide
 
 * librairie standard
 
-+++ {"cell_style": "split"}
++++ {"cell_style": "center"}
 
 >```c++
 >// fichier first.cpp
