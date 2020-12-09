@@ -4,8 +4,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: '0.9'
-    jupytext_version: 1.5.2
+    format_version: 0.12
+    jupytext_version: 1.7.1
 kernelspec:
   display_name: Python 3
   language: python
@@ -128,8 +128,12 @@ int main () {
 
 <br>
 
-`new Integer [4]` alloue dans le tas (heap, mémoire dynamique) assez de mémoire pour stocker 4 objets de type `Integer` (les zones mémoires des objets sont contigus en mémoire)     
-(*si l'allocation réussit*) les constructeurs sont appelés pour initialiser les 4 objets
+`new Integer [4]` alloue dans le tas (heap, mémoire dynamique) assez de mémoire pour stocker 4 objets de type `Integer` (les zones mémoires des objets sont contigus en mémoire)
+    
+<br>
+    
+(*si l'allocation réussit i.e. si l'OS trouve assez de mémoire ...*) les constructeurs sont appelés pour initialiser les 4 objets  
+dans l'ordre les constructeurs `Integer(12)`, `Integer(56)`, `Integer(0)` et `Integer(0)`  
 
 <br>
 
@@ -151,7 +155,8 @@ int main () {
 <br>
 
 voici le fichier d'entête `intstack.h` qui définit la classe pour la pile d'entiers  
-tout le code est dans le fichier d'entête i.e. pas besoin ici de fichier d'implémentation
+tout le code est dans le fichier d'entête i.e. pas besoin ici de fichier d'implémentation  
+notons que nous ne traitons pas (encore) les erreurs potentielles
 
 <br>
 
@@ -159,8 +164,7 @@ tout le code est dans le fichier d'entête i.e. pas besoin ici de fichier d'impl
 #include <iostream>
 class IntStack {
 public:
-  IntStack (int s): size(s), top (0), tab (new int [size]) {
-  }
+  IntStack (int s): size(s), top (0), tab (new int [size]) {}
   void push (int e) {
     tab[top] = e;
     top = top+1;
@@ -313,17 +317,21 @@ $ valgrind ./foo
 
 <br>
 
-`valgrind` indique avoir perdu 400 octets ($100 \times 4 $ avec `sizeof(int)` qui vaut `4`) 
+`valgrind` indique avoir perdu 400 octets ($100 \times 4 $ avec `sizeof(int)` qui vaut `4`)
+    
+<br>
+    
+Voyez vous d'où vient le problème ?     
 </div>
 
 +++
 
-## un problème de fuite mémoire !
+## le problème de fuite mémoire
 
 +++
 
 <div class = "framed-cell">
-<ins class = "underlined-title">un problème de fuite mémoire !</ins>
+<ins class = "underlined-title">le problème de fuite mémoire</ins>
 
 <br>
 
@@ -407,11 +415,12 @@ réfléchissons un peu ...
 
 <br>
   
-donc `c++` pourrait se charger d'exécuter automatiquement les instructions nécessaires pour nettoyer un objet quand il arrive en fin de vie
+donc `c++` pourrait **se charger d'exécuter automatiquement** les instructions nécessaires pour nettoyer un objet quand il arrive en fin de vie
 
 <br>
 
-par exemple dans notre cas, on aimerait bien qu'il exécute automatiquement `delete [] tab`
+par exemple dans notre cas, on aimerait bien qu'il exécute automatiquement la fonction `delete_stack`  
+qui fait `delete [] tab`
 
 <br>
 
@@ -424,10 +433,20 @@ dans un autre cas, on aimerait (par exemple) qu'il ferme un fichier que l'objet 
 * le destructeur est une fonction membre spéciale
 * qui est automatiquement appelée lorsqu'un objet de cette classe arrive en fin de vie
 
+</div>
 
++++
+
+## le destructeur ~
+
++++
+
+<div class = "framed-cell">
+<ins class = "underlined-title">le destructeur ~</ins>
+    
 <br>
 
-un destructeur porte le nom de la classe préfixé par le caractère `~`
+le destructeur porte le nom de la classe préfixé par le caractère `~`
 
 <br>
 
@@ -502,7 +521,7 @@ qui est automatiquement appelée quand un objet d'une classe est créé (débute
 
 +++
 
-## le destructeur une fonction membre spéciale
+## le destructeur: une fonction membre spéciale
 
 +++
 
@@ -515,20 +534,106 @@ si une classe n'a rien à faire de spécial quand ses objets arrivent en fin de 
 
 <br>
 
-quand vous ne définissez pas de destructeur dans une classe, `c++` en génère un implicitement
+quand vous ne définissez pas de destructeur dans une classe, `c++` en génère un implicitement  
+qui ne fait rien  
+il n'est même pas appelé (il est `inline`)
 
 <br>
 
 </div>
 
++++
+
+## exercice: ajoutez un destructeur dans votre `IntStack`
+
++++
+
+<div class = "framed-cell">
+<ins class = "underlined-title">ajoutez un destructeur dans votre `IntStack`</ins>
+
+
+<br>
+
+```c++
+// in file intstack.h    
+#include <iostream>
+class IntStack {
+public:
+    
+  IntStack (int s): size(s), top (0), tab (new int [size]) {}
+    
+  ~IntStack() {
+    delete [] tab;
+  }
+    
+  void push (int e) {
+    tab[top] = e;
+    top = top+1;
+  }
+  int pop () {
+    top = top-1;
+    return tab[top];
+  }
+  void print () {
+    std :: cout << "[";
+    for (int i=0; i<top; i++) {
+      std::cout << tab[i] << ' ';
+    }
+    std::cout << '[' << std::endl;
+  }
+  // notez que la fonction delete_stack est devenue ~IntStack
+private:
+  int size;
+  int top;
+  int* tab;
+};
+```
+
+on teste notre code                                
+                                 
+```c++
+// in file main.cpp
+#include "intstack.h"   
+int main () {
+  foo();
+  return 0;
+}
+```
+                                 
+                                 
+```bash
+$ g++ main.cpp -g
+$ valgrind ./a.out
+g++ -g intstack.cpp -Wall ; valgrind ./a.out
+==11048== Memcheck, a memory error detector
+==11048== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==11048== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==11048== Command: ./a.out
+==11048== 
+==11048== 
+==11048== HEAP SUMMARY:
+==11048==     in use at exit: 0 bytes in 0 blocks
+==11048==   total heap usage: 2 allocs, 2 frees, 76,704 bytes allocated
+==11048== 
+==11048== All heap blocks were freed -- no leaks are possible
+==11048== 
+==11048== For lists of detected and suppressed errors, rerun with: -s
+==11048== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+Compilation finished at Mon Dec  7 15:32:58
+```
+
+le tableau a bien été supprimé ! le destructeur a bien été appelé        
+</div>
+
 +++ {"tags": ["level_intermediate"]}
 
-## supprimer le destructeur
+## supprimer le destructeur - advanced -
 
 +++ {"tags": ["level_intermediate"]}
 
 <div class = "framed-cell">
-<ins class = "underlined-title">supprimer un destructeur</ins>
+<ins class = "underlined-title">supprimer le destructeur - advanced -</ins>
 
 <br>
 
@@ -583,12 +688,12 @@ Compilation finished at Sun Nov  1 19:07:35
 
 +++ {"tags": ["level_intermediate"]}
 
-## imposer le destructeur par défaut
+## imposer le destructeur par défaut - advanced -
 
 +++ {"tags": ["level_intermediate"]}
 
 <div class = "framed-cell">
-<ins class = "underlined-title">imposer le destructeur par défaut</ins>
+<ins class = "underlined-title">imposer le destructeur par défaut - advanced -</ins>
 
 <br>
 
