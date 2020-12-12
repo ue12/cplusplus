@@ -525,13 +525,15 @@ pour coder de manière itérative, vous devez implémenter les méthodes les une
 <br>
     
 à chaque nouvelle méthode que vous écrivez
-* testez la méthode seule (par exemple en implémentant une fonction dédiée) ce sont les **tests unitaires**  
-naturellement vous pouvez utiliser la fonction `print` pour la tester
-* testez les fonctions entre elles
-    
+* testez la méthode
+* ajouter toutes les fonctions de test que vous écrivez dans un fichier 
+* écrivez des fonctions de tests petites qui testent chacune peu de *chose* voire une seule
+* éviter la fonction de test qui teste des tas de cas  
+vous voulez aller rapidement au problème
 <br>
     
-conserver tous le code que vous écrivez pour vos tests afin de pouvoir les ré-appliquer sur votre code au fur et à mesure des ajout  
+comme vous conservez toutes les fonctions de test du code que vous écrivez  
+vous pouvez les ré-appliquer sur votre code au fur et à mesure des ajouts  
 vous allez construire des tests de **non-régression**
 
 <br>
