@@ -87,7 +87,7 @@ vous vous rappelez:
 +++
 
 <div class = "framed-cell">
-<ins class = "underlined-title">type de base et type utilisateur</ins>
+<ins class = "underlined-title">type de base</ins>
   
   
 <br>
@@ -98,6 +98,7 @@ pour les type de base de `c++` on peut construire un nouvel objet à partir d'un
 int main () {
   int i = 12;
   int j = i;
+  j = i;
   return 0;
 }
 ```
@@ -110,6 +111,45 @@ dans cet exemple
 
 +++
 
+<div class = "framed-cell">
+<ins class = "underlined-title">type utilisateur</ins>
+  
+  
+<br>
+    
+`c++` traite les objets de vos propres types (*types utilisateur* i.e. *définis par l'utilisateur*),  
+comme il traite les objets de ses types de base (par exemple les entiers)
+    
+<br>
+ainsi supposons que vous définissiez un type `X` dont le constructeur prend un entier en argument
+    
+    
+```c++
+// in file file.h
+class X {
+    int value;
+public:
+    X (int value) : value(value) {}
+};
+```
+    
+<br>
+    
+`c++` va définir *implicitement* les méthodes pour construire un objet de type `X` (ici `j`) à partir d'un objet de type `X` existant (ici `i`),  
+et même affecter un objet de type `X` (ici `i`) à un objet de type `X` pré-existant (ici `j`)
+    
+```c++
+#include "file.h"    
+int main () {
+  X i = 12;
+  X j = i;
+  j = i;
+  return 0;
+}
+```
+
++++
+
 ## construction d'objets de types utilisateur
 
 +++
@@ -117,7 +157,7 @@ dans cet exemple
 <div class = "framed-cell">
 <ins class = "underlined-title">construction d'objets de types utilisateur</ins>
   
-`c++` permet de:
+donc `c++` permet de:
 * traiter les objets des types définis par l'utilisateur (par exemple la pile d'entiers),   
     de la même manière que les objets de ses types de base (par exemple les entiers)
 
@@ -588,6 +628,7 @@ int main () {
 ```c++
 int main () {
   int i = 12;
+  int* pi = &i;
   int& ri = i;
   ri++;   // i is now 13
   ri=156; // i is now 156
@@ -622,24 +663,53 @@ on vous redonne l'exemple avec les arguments qui sont des adresses (pointeurs)
 // in file swap.cpp
 #include<iostream>
 
-void swap_ref (/* les paramètres de la fonction ici */) {
-   /* votre code ici */
+void swap_ref (int& x, int& y) {
+   int i = x;
+   x = y;
+   y = i;
 }
 void swap_ptr (int* x, int* y) {
   int i = *x;
   *x = *y;
   *y = i;
 }
+    
 int main () {
-   int a = 12;
+   int a = 11;
+   int& ra = a;
+   ra = ra + 1;
    int b = 81;
    std::cout << a << ' ' << b << std::endl; // 12 81 
    swap_ptr(&a, &b);
    std::cout << a << ' ' << b << std::endl; // 81 12 
-   swap_ref(/* vos arguments ici */);
+   swap_ref(a, b);
    std::cout << a << ' ' << b << std::endl; // 12 81
    return 0;
 }
+```
+
++++
+
+    
+```c++    
+#include "intstack.h"
+void foo (IntStack& rst) {
+    rst.push(10);
+    rst.print();
+}
+void bar (IntStack rst) {
+    rst.push(10);
+    rst.print();
+}
+int main () {
+    IntStack st(100);
+    foo(st);
+    st.print();
+    bar(st);
+    st.push(20);
+    return 0;
+}
+    
 ```
     
 </div>
@@ -704,6 +774,36 @@ int main () {
 
 +++
 
+  
+```c++
+// dans le fichier main.cpp
+#include <iostream>
+class IntStack {
+public:
+  IntStack (int s): size(s), top (0), tab (new int [size]) {}
+  
+  IntStack (const IntStack& rst) : size(rst.size), top(rst.top), 
+    tab(new int[size]) {
+        for (int i = 0; i < top; ++i)
+            tab[i] = rst.tab[i];
+  }
+
+  ~IntStack() {
+    delete [] tab;
+  }
+...
+private:
+    int size;
+    int top;
+    int* tab;
+};
+```
+```bash
+$ g++ -g -Wall main.cpp
+```
+
++++
+
 ## un constructeur de copie est un constructeur...
 
 +++
@@ -725,11 +825,14 @@ dans le code ci-dessous qui compile et fonctionne parfaitement
 
 ```c++
 class Foo {
+    public:
+    Foo (const Foo&) {}
 };
 
 int main () {
   Foo x;
   Foo y = x;
+  y = x;
   return 0;
 }
 

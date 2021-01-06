@@ -3,8 +3,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: '0.9'
-    jupytext_version: 1.5.2
+    format_version: 0.12
+    jupytext_version: 1.7.1
 kernelspec:
   display_name: Python 3
   language: python
@@ -28,18 +28,31 @@ HTML('<link rel="stylesheet" href="c++-slides.css" />')
 
 +++
 
-Lorsque vous faites de la compilation séparée, vous êtes amenés à recompiler des fichiers lorsque les fichiers dont ils dépendent sont modifiés. La commance `make` et son fichier de règles `makefile` ou `Makefile` va vous permetter d'automatiser le recompilation des fichiers entrant dans la constitution d'un exécutable.
+https://www.gnu.org/software/make/manual/make.html
 
 +++
 
-## compilation séparée
+Lorsque vous faites de la compilation séparée, vous êtes amenés à recompiler des fichiers lorsque les fichiers dont ils dépendent sont modifiés.
+
+Par exemple, si vous modifiez la fonction `main` du fichier `main.cpp`, le `main.o` pré-existant à cette modification n'est plus à jour ou du moins ne comportera pas votre modification.
+
+La commance `make` et son fichier de règles `makefile` ou `Makefile` va vous permetter d'automatiser le recompilation des fichiers entrant dans la constitution d'un exécutable, parce que ca devient très vite difficile de ne pas se tromper en le faisant *à-la-main*.
+
++++
+
+## exemple de compilation séparée
 
 +++
 
 <div class="framed-cell">
-<ins class="underlined-title">compilation séparée</ins>
+<ins class="underlined-title">exemple de compilation séparée</ins>
   
-Rappelez-vous nous avons un programme qui prend une expression arithmétique en notation polonaise inversée comme arguments de la ligne de commande et qui évalue l'expression.
+<br>
+
+vous avez un programme qui
+* prend une expression arithmétique entière en notation polonaise inversée (en argument de la ligne de commande) et qui évalue l'expression.
+* et qui se sert pour l'évaluation d'une pile d'entiers
+<br>
 
 Pour cela, nous avons les fichiers suivants:
 * le code d'une pile d'entiers dans les fichiers `stack.h` et `stack.cpp`
@@ -70,23 +83,31 @@ $ g++ stack.o rpn_calc.o test.o
 
 maintenant quand je modifie un fichier, je ne veux **pas** tout recompiler !  
 je ne veux recompiler que ce qui est obligatoire  
-puisque dans de gros codes la phase de compilation peut prendre beaucoup beaucoup de temps alors autant ne pas la faire inutilement !  
-et puis les `.o` peuvent être utilisés dans d'autres exécutables   
 
 <br>
 
-d'autre part, recompiler *à-la-main* que ce qui est utile, est très  fastidieux et source d'erreur ...
+d'une part, dans de gros codes la phase de compilation peut prendre beaucoup beaucoup de temps  
+alors autant ne pas la faire inutilement !
 
 <br>
 
-on sait aussi qu'à partir du moment où on connaît
-* les dépendances entre les fichiers (comme par exemple que `rpn_calc.cpp` dépend de `stack.h`)
-* comme le système d'exploitation connaît la date de la dernière modification de nos fichiers
-* c'est quelque chose qui peut s'automatiser
+d'autre part, les `.o` peuvent être utilisés dans d'autres exécutables   
 
 <br>
 
-dans les années 1970 la commande `make` a été inventée pour cela ... et elle est toujours utilisée malgré son utilisation de la tabulation comme séparateur ... et son grand age
+et enfin, recompiler *à-la-main* que ce qui est utile, est très  fastidieux et source d'erreur ...
+
+<br>
+
+on sait aussi qu'à partir du moment où
+* on connaît les dépendances entre les fichiers (comme par exemple que `rpn_calc.cpp` dépend de `stack.h`)
+* sachant que le système d'exploitation connaît la date de la dernière modification de nos fichiers
+* c'est quelque chose qui peut s'automatiser !
+
+<br>
+
+dans les années 1970 la commande `make` a été inventée pour cela ... et elle est toujours utilisée  
+malgré son choix de la tabulation comme séparateur ...
 
 
 <br>
@@ -110,26 +131,26 @@ nous allons voir rapidement un embryon de `makefile` et l'utilisation de la comm
 
 <br>
 
-un makefile est un fichier de texte utilisé par la commande `make`  
+un `makefile` est un fichier de texte utilisé par la commande `make`  
 pour exécuter un ensemble d'actions facilitant la compilation et l'édition de liens de vos programes (mais pas que)
   
 <br>
 
-un `Makefile` est constitué de **définitions** et de **règles** avec des noms de cibles (`all`, `clean`...)
+un `makefile` est constitué de **définitions** et de **règles** avec des noms de cibles (`all`, `clean`...)
 
 <br>
 
 pour une **cible**, on va indiquer
-* ses **dépendances** c'est à dire les cibles qui doivent être résolues avant de résoudre cette cible
+* ses **dépendances** c'est à dire les cibles qui doivent être résolues avant d'essayer de résoudre cette cible
 * les **actions** à faire pour résoudre cette cible
 
 <br>
 
-```bash
+```c++
 cible-1: dependance-1 ... dependance-m
-        action-1
-        ...
-        action-n
+    action-1
+    ...
+    action-n
 ```
 
 <br>
@@ -144,14 +165,14 @@ cela se lit de la maière suivante:
 
 +++
 
-## problème de tabulation
+## le problème de la tabulation
 
 +++
 
 <div class="framed-cell">
 <ins class="underlined-title">attention à la tabulation</ins>
 
-les actions sont introduites par une `tabulation` (le fameux caractère ascii `\t`)
+les actions sont introduites par une `tabulation` (le fameux caractère ascii '`\t`')
 
 <br>
 
@@ -193,29 +214,35 @@ nous vous conseillons de configurer votre `vs-code` de la manière indiquée
 <div class="framed-cell">
 <ins class="underlined-title">la commande `make`</ins>
     
-la commande `make` va tenter de réaliser toutes les actions requise par une règle pour accomplir sa cible  
-la règle étant mise dans un fichier `makefile`
+la commande `make` va essayer de résoudre une cible
+    
+<br>
+    
+pour cela, elle tente de réaliser toutes les actions requise par la règle décrivant la cible  
+   
+<br>
+    
+la ou les règles étant mises dans un fichier `makefile`
     
 <br>
 
-à vous de jouer, éditez un fichier `makefile` dans le répertoire où se trouvent vos fichiers de la calculette  
-et créez-y une cible `clean` qui supprime des fichiers de compilation dont nous n'avons plus besoin  
+à vous de jouer
+* éditez un fichier `makefile` dans le répertoire où se trouvent vos fichiers de la calculette (ou autre projet)
+* créez-y une cible `clean` qui supprime des fichiers de compilation dont nous n'avons plus besoin    
 notons qu'avec `-f` la commande `rm` ignore les fichiers qui existent pas i.e. ne fait pas d'erreur
 
-
+<br>
+    
 donc attention avant `rm -f` il **faut** mettre une **tabulation**
 
 
->```bash
-># dans le fichier makefile
+```bash
+# dans le fichier makefile
 clean:
         rm -f test.o rpn_calc.o stack.o calc
 ```
 
 
-<br>
-
-vous remarquez 
 
 <br>
 
@@ -272,7 +299,7 @@ on peut mettre des définitions dans un fichier `makefile` pour introduire
 ```bash
 # dans le fichier makefile
 CXX=g++
-CXXFLAGS=-Wall -ggdb
+CXXFLAGS=-Wall -g
 RM=rm -f
 
 clean:
@@ -287,7 +314,7 @@ et `CXXFLAGS` les options passées lors de la compilation ici
 
 <br>
 
-vous remarquez `$(RM)$` qui est la manière d'accéder à la variable contenant la commande de `rm -f` 
+vous remarquez `$(RM)$` qui est la **manière** d'accéder à la variable contenant la commande de `rm -f` 
 </div>
 
 +++
@@ -308,7 +335,7 @@ je dois compiler le fichier `rpn_calc.cpp`
 
 <br>
 
-tous les fichiers `.o` sont produits de la même manière en appelant le compilateur avec ses options de compilation  
+tous les fichiers de code objet `.o` sont produits de la même manière en appelant le compilateur avec ses options de compilation  
 i.e. `g++ -Wall -ggdb -c`
 
 
@@ -340,7 +367,15 @@ g++ -Wall -ggdb -c test.cpp
 donc pour généraliser une telle règle, dans le fichier `makefile` nous allons faire  
 
 ```bash
-# das le fichier makefile
+# dans le fichier makefile
+%.o: %.cpp
+    $(CXX) $(CXXFLAGS) -o $@ -c $<
+```    
+ 
+<br>
+
+```bash
+# dans le fichier makefile
 %.o: %.cpp; $(CXX) $(CXXFLAGS) -o $@ -c $<
 ```    
  
@@ -352,12 +387,13 @@ notons que le caractère `%` est appelé un `wildcard` (il matche tout ou une pa
 <br>
 
 comment cela se lit-il ?
-* pour réaliser la cible `%.o` (par exemple prenons `%.o` à `rpn_calc.o`), il faut que la cible `%.cpp` existe (donc `rpn_calc.cpp`)
+* pour réaliser la cible `%.o` (par exemple prenons `%.o` égal à `rpn_calc.o`), il faut que la cible `%.cpp` existe (donc que `rpn_calc.cpp` existe)
 
 
 * puis il faut appliquer l'action `$(CXX) $(CXXFLAGS) -o $@ -c $<` où  
   * `$@` est le nom de la cible que vous cherchez à faire (`rpn_calc.o`)  
-  * et `$<` le nom de la dépendance donc `rpn_calc.cpp`
+  * et `$<` le nom de la dépendance donc `rpn_calc.cpp`  
+  (la ou les dépendances sont à droite du signe `:` de la règle et avant le `;`)
 
 </div>
 
@@ -372,8 +408,7 @@ comment cela se lit-il ?
     
 <br>
     
-la calculette utilise les fonctions de la `stack` (`pop`, `push`...) pour cela, elle inclut le header `stack.h`  
-qui déclare ces fonctions
+la calculette utilise les fonctions de la `stack` (`pop`, `push`...) pour cela, elle inclut le header `stack.h` qui déclare ces fonctions
 
 <br>
 
@@ -381,11 +416,11 @@ supposons qu'une fonction vienne à changer, par exemple `print_stack` prend dé
 
 <br>
 
-il faudra naturellement modifier le code de la pile donc recompiler le fichier `stack.cpp`
+il faudra naturellement modifier le code de la pile et recompiler le fichier `stack.cpp`
 
 <br>
 
-afin que `make` sache que si `stack.cpp` a été modifié depuis que `stack.o` a été produit  
+afin que `make` sache si `stack.cpp` a été modifié depuis que `stack.o` a été produit  
 on va indiquer la dépendance dans le `makefile` 
 
 
@@ -400,8 +435,7 @@ mais il faudra aussi recompiler le fichier `rpn_calc.cpp` puisqu'il dépend de l
 
 <br>
 
-on va donc indiquer dans les dépendances de `rpn_calc.o`
-* qu'il dépend de `rpn_calc.cpp` et aussi de `stack.h`
+on va donc indiquer dans les dépendances de `rpn_calc.o` qu'il dépend de `rpn_calc.cpp` et aussi de `stack.h`
 
 ```bash
 # dans le fichier makefile
@@ -439,8 +473,8 @@ il nous reste maintenant à faire l'édition de lien de tous les fichiers `.o` c
 <br>
 
 donc pour faire l'exécutable, il faut
-* avoir compilé les fichiers `stack.o`, `rpn_calc.o` et `stack.o`
-* donc avoir leur fichier `.cpp` correspondants
+* avoir les fichiers `stack.o`, `rpn_calc.o` et `stack.o`
+* ou les refaire et dans ce cas avoir leur fichier `.cpp` correspondant
 * appeler le `linker` en lui donnant un nom pour l'exécutable
 
 <br>
@@ -452,10 +486,10 @@ calc : stack.o rpn_calc.o test.o
 ```
 
 comment cette expression se lit-elle ?
-* il faut que les dépendances `stack.o`,  `rpn_calc.o` et `test.o` soient vraies  
-i.e. que ces 3 fichiers existent
+* il faut que les dépendances `stack.o`,  `rpn_calc.o` et `test.o` soient vraies et *à jour*  
+  sinon il les refera
 * ensuite le `linker` de nom `$(CXX)` donc `g++` avec les options déjà indiquées est appelé
-* il fait l'édition de lien des fichiers `$^` qui sont les dépendances
+* il fait l'édition de lien des fichiers `$^` qui sont la liste des fichiers `.o` mis comme dépendances de la règle
 * et il met l'exécutable dans `$@` qui est le nom de la cible ici `calc`
 
 </div>
@@ -468,7 +502,8 @@ i.e. que ces 3 fichiers existent
 
 voici un `makefile` très simple
 
-attention si vous coupez le texte de cette cellule, les tabulations deviendront sûrement des espaces quand vous le collerez dans un fichier
+attention si vous coupez le texte de cette cellule, les tabulations deviendront sûrement des espaces quand vous le collerez dans un fichier    
+il faudra le vérifier ...
 
 <div class="framed-cell">
 <ins class="underlined-title">le ficher makefile</ins>
@@ -486,9 +521,65 @@ rpn_calc.o : rpn_calc.cpp rpn_calc.h stack.h
 test.o : test.cpp rpn_calc.h
 
 %.o:%.cpp; $(CXX) $(CXXFLAGS) -o $@ -c $<
-
+                                             
 clean :
 	$(RM) test.o rpn_calc.o stack.o calc
+```
+
++++
+
+ensuite vous pourrez faire des makefiles plus compliqués, par exemple en répartissant les sources d'un programme entre plusieurs répertoires, ou pour générer une librarie pour distribuer votre code:
+* `src` les fichiers d'implémentation et headers *locaux*
+* `include` les fichiers d'entête (header) que l'extérieur doivent accéder
+* `build` les fichiers objets `.o`
+* `lib` les librairies
+
++++
+
+## un `makefile` un peu plus compliqué
+
++++
+
+vous pouvez regarder le TP sur le `snake` où
+* les sources sont distribuées entre les répertoires `src` et `include`, `build` et `lib`
+* les sources construisent une librarie (`libsnake.a`)
+* ... et vous poserez vos questions par e_mail
+
++++
+
+```bash
+CXX=g++
+CXXFLAGS=-Wall -ggdb -Iinclude
+AR=/usr/bin/ar -r 
+
+src := $(wildcard src/*.cpp)
+obj := $(subst src, build, $(src:.cpp=.o))
+
+
+.PHONY: directories
+
+all: directories libsnake.a snake 
+	@echo $(obj)
+
+snake: main.cpp libsnake.a
+	$(CXX) $(CXXFLAGS) $^ -o $@ 
+
+libsnake.a: ${obj}
+	${AR} $@ $^
+
+build/%.o: src/%.cpp include/%.h
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+
+directories: build
+build:
+	mkdir -p $@
+
+
+clean: 
+	rm snake
+	rm libsnake.a
+	rm -r build
 ```
 
 +++
@@ -593,3 +684,34 @@ il refait bien tout
 +++ {"tags": ["level_intermediate"]}
 
 https://stackoverflow.com/questions/2145590/what-is-the-purpose-of-phony-in-a-makefile
+
+quand les targets ne sont pas des noms de fichiers  
+si un fichier porte, par hasard, ce nom dans le répertoire (concerné par la commande) `make` les confond et ne va pas faire la cible !
+
+`make` doit comprendre qu'il doit lancer la commande sans condition de date du fichier homonyme  
+
+ces commandes seront déclarées `.PHONY`
+
+```make
+.PHONY: clean
+
+clean:
+  rm -rf *.o
+```
+
+i.e. une cible `phony` est considérée comme toujours *out-of-date*   
+    d'exemple sont `all`, `install`, `clean`, 'check ...
+
++++
+
+## exercice: mettez un `makefile` dans chacun de vos projets
+
++++
+
+<div class="framed-cell">
+    
+<ins class="underlined-title">exercice: mettez un `makefile` dans chacun de vos projets</ins>
+    
+le sujet du TP est dans le titre   
+    
+</div>
