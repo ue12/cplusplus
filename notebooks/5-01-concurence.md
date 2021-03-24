@@ -1,6 +1,7 @@
 ---
 jupyter:
   jupytext:
+    notebook_metadata_filter: rise
     text_representation:
       extension: .md
       format_name: markdown
@@ -10,11 +11,19 @@ jupyter:
     display_name: Python 3
     language: python
     name: python3
+  rise:
+    autolaunch: true
+    scroll: true
 ---
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 # Programmation concurrente en C++
 <!-- #endregion -->
+
+```python
+%%HTML
+<link rel="stylesheet" type="text/css" href="rise.css">
+```
 
 <!-- #region slideshow={"slide_type": "subslide"} -->
 Dans le cours **Programmes Coopérants** vous avez vu les bases de la programmation concurente en Python par la création de process ou de threads. Vous avez également vu comment il est possible de faire du calcul parallèle et donc exploiter les architectures des super calculateurs modernes via le protocole MPI. 
@@ -940,10 +949,13 @@ done 13
 <!-- #region slideshow={"slide_type": "subslide"} -->
 ### Application 
 
-Une application simple de ce type d'approche est le web scraping. 
-TODO
+Une application simple de ce type d'approche est le web scraping. Le principe est de créer un programme qui fait des requêtes sur le web et récupère ainsi divers informations. 
+
+Par exemple vous trouverez dans le dossier `code/async_skeleton` un programme séquentiel c++ qui fait des requètes sur le site HAL Archives Ouvertes et récupères la liste des publications du différentes personnes de l'École des Mines. 
+
+**Remarque :** il s'agit là d'un exemple jouet dans la vrai vie ce type de programme ne fait pas 4 requètes mais des milliers. 
+
+L'objectif pour vous est d'utiliser le `std::async` pour réduire de manière significative le temps d'éxécution du programme. 
+
+
 <!-- #endregion -->
-
-```python
-
-```
