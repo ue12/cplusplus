@@ -51,7 +51,7 @@ La syntaxe générale des fonctions anonymes est la suivante :
 ```
 
 * `params` représente la liste des paramètres d'entrée de votre fonction, donc une suite de paramètres nommés et typés, comme dans une fonction classique
-* `ret` est le type de retour de votre fonction anonyme, vous pouvez ne pas le préciser il est alors automatiquement déduit si le mot clé `return est présent dans `body` sinon il est considéré comme `void`
+* `ret` est le type de retour de votre fonction anonyme, vous pouvez ne pas le préciser il est alors automatiquement déduit si le mot clé `return` est présent dans `body` sinon il est considéré comme `void`
 * `body` est le corps de votre fonction
 * `capture` est une liste de variables existant dans le scope de déclaration de la fonction anonyme et devant être transmises au scope interne à la fonction.
 
